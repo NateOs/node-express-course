@@ -1,4 +1,4 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"prettier.printWidth": 30
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.printWidth": 80
 }
