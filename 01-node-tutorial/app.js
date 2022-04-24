@@ -1,41 +1,18 @@
-const { readFile, writeFile } = require('fs').promises;
+const EventEmitter = require('events')
 
-// async code that returns a promise
-// const getText = (path) => {
-// 	return new Promise((resolve, reject) => {
-// 		readFile(path, 'utf8', (err, data) => {
-// 			if (err) {
-// 				reject(err);
-// 			} else {
-// 				resolve(data);
-// 			}
-// 		})
-// 	})
-// }
+const customEmitter = new EventEmitter()
 
-// calling the async function and chaining the promise
-// getText('./content/first.txt')
-// 	.then(result => {
-// 		console.log(result)
-// 	})
-// 	.catch(err => {
-// 		console.log(err)
-// 	})
+// on and emit methods
+// keep track of the order
+// additional arguments
+// built-in modules utilize it
 
+customEmitter.on('response', (name, id) => {
+  console.log(`data recieved user ${name} with id:${id}`)
+})
 
-const start = async () => {
-	try {
-		const first = await readFile('./content/first.txt', 'utf8');
-		const second = await readFile('./content/second.txt', 'utf8');
-		await writeFile(
-			'./content/result-mind-grenade.txt',
-			`THIS IS AWESOME: ${first} ${second}`,
-			{ flag: 'a' });
-		console.log(first);
-		console.log(second);
-	} catch (error) {
-		console.log(error)
-	}		
-}
+customEmitter.on('response', () => {
+  console.log('some other logic here')
+})
 
-start()
+customEmitter.emit('response', 'john', 34)
