@@ -1,21 +1,40 @@
 const express = require("express");
-const { logger, authorize } = require("./middleware");
 const app = express();
 
-app.use([authorize, logger]);
+let { people } = require("./data");
 
-// the middleware implemented
-app.get("/", function (req, res) {
-  res.send("Home");
+// serve static
+app.use(express.static("./methods-public"));
+
+// parse form data
+app.use(express.urlencoded({ extended: false }));
+
+// parse json data
+app.use(express.json());
+
+// the GET Method
+app.get("/api/people", (req, res) => {
+  res.status(200).send({ success: true, data: people });
 });
-app.get("/about", function (req, res) {
-  res.send("About");
+
+// the POST Method
+app.post("/api/people", (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "please provide name value" });
+  }
+  res.status(201).send({ success: true, person: name });
 });
-app.get("/api/products", function (req, res) {
-  res.send("Products");
-});
-app.get("/api/items", function (req, res) {
-  res.send("Items");
+
+app.post("/login", (req, res) => {
+  const { name } = req.body;
+  return name
+    ? res.status(200).send(`Welcome ${name}`)
+    : res
+        .status(401)
+        .json({ success: false, msg: "please provide name value" });
 });
 
 app.listen(5000, () => {
