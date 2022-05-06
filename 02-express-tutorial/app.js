@@ -54,6 +54,23 @@ app.put("/api/people/:id", (req, res) => {
   // res.status(200).send({ success: true, person });
 });
 
+app.delete("/api/people/:id", (req, res) => {
+  const person = people.find((person) => person.id === Number(req.params.id));
+
+  if (!person) {
+    return res.status(400).json({
+      success: false,
+      msg: `person ${req.params.id} is not a valid id or not found`,
+    });
+  }
+
+  const newPeople = people.filter(
+    (person) => person.id !== Number(req.params.id),
+  );
+
+  return res.status(200).send({ success: true, data: newPeople });
+});
+
 app.listen(5000, () => {
   "Server running at port 5000";
 });
