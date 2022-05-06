@@ -37,6 +37,23 @@ app.post("/login", (req, res) => {
         .json({ success: false, msg: "please provide name value" });
 });
 
+app.put("/api/people/:id", (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  console.log(id, name);
+  // if (!name) {
+  //   return res
+  //     .status(400)
+  //     .json({ success: false, msg: "please provide name value" });
+  // }
+  // const person = people.find((person) => person.id === id);
+  // if (!person) {
+  //   return res.status(404).json({ success: false, msg: "person not found" });
+  // }
+  // person.name = name;
+  // res.status(200).send({ success: true, person });
+});
+
 app.listen(5000, () => {
   "Server running at port 5000";
 });
